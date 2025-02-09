@@ -1,0 +1,42 @@
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: whitesmoke;
+}
+
+.form-container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+mat-card {
+  padding: 2em;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/*mat-card-actions {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  justify-content: center;*/
+/*}*/
+
+.title {
+  text-align: center;
+  font-size: 2em;
+  padding: 0.5em;
+}
+
+/*:host {*/
+/*  height: 100vh;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
