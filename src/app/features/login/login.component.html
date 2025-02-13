@@ -1,16 +1,17 @@
+<link rel="stylesheet" href="login.component.css">
+<script src="login.component.ts"></script>
+<script src="../sign-up/signup/signup.component.ts"></script>
+<script src="../../app.component.ts"></script>
 <div class="container">
   <mat-card appearance="outlined">
     <mat-card-header></mat-card-header>
     <mat-card-title class="title">Login</mat-card-title>
     <form class="form-container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input type="email" formControlName="email" name="email" matInput />
-        @if (loginForm.get('email')?.errors && !loginForm.get('email')?.hasError('required')) {
-          <mat-error>Please enter a valid email address</mat-error>
-        }
-        @if (loginForm.get('email')?.hasError('required')) {
-          <mat-error>Email is <strong>required</strong></mat-error>
+        <mat-label>Username</mat-label>
+        <input type="email" formControlName="username" name="username" matInput />
+        @if (loginForm.get('username')?.hasError('required')) {
+          <mat-error>Username is <strong>required</strong></mat-error>
         }
       </mat-form-field>
       <mat-form-field>
@@ -25,13 +26,19 @@
         >
           <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        <mat-hint align="end">
+          <a href="">Forgot password?</a>
+        </mat-hint>
         @if (loginForm.get('password')?.hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
         }
       </mat-form-field>
-      <mat-card-actions align="end">
-        <button mat-raised-button type="submit" [disabled]="!loginForm.valid">Login</button>
+      <mat-card-actions>
+        <button mat-raised-button class="login-button" type="submit" [disabled]="!loginForm.valid">Login</button>
       </mat-card-actions>
     </form>
+    <mat-card-footer>
+      <button mat-button (click)="router.navigate(['/register'])">Create Account</button>
+    </mat-card-footer>
   </mat-card>
 </div>

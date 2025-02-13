@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {Router, RouterOutlet} from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {AuthService} from './core/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +12,33 @@ import {MatSlideToggle} from '@angular/material/slide-toggle';
 })
 export class AppComponent {
   title = 'habtraWeb';
+
+  constructor(private authService: AuthService, private http: HttpClient, private router: Router) {}
+
+  ngOnInit() {
+    const credentials = this.authService.getCredentials();
+
+    if (credentials) {
+      this.http.get('http://localhost:8080/api/user').subscribe({
+        next: () => {
+          this.router.navigate(['/habits']);
+        },
+        error: () => {
+          this.authService.clearCredentials();
+          this.router.navigate(['/login'])
+        }
+      })
+    } else {
+      this.router.navigate(['/login'])
+    }
+  }
+
+  logout() {
+    this.http.post('http://localhost:8080/logout', {}).pipe(
+      finalize(() => {
+        this.authService.clearCredentials();
+        this.router.navigateByUrl('/login');
+      })
+    ).subscribe();
+  }
 }

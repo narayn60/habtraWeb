@@ -1,18 +1,18 @@
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, signal, WritableSignal} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {MatCard, MatCardActions, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {MatCard, MatCardActions, MatCardFooter, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {
   FormControl,
-  FormGroupDirective,
-  NgForm,
   Validators,
   FormsModule,
   ReactiveFormsModule, FormGroup,
 } from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material/core';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {Router} from '@angular/router';
+import {AuthService} from '../../core/auth/auth.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,8 @@ import {MatIcon} from '@angular/material/icon';
     MatIcon,
     MatCardActions,
     MatButton,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardFooter
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -35,10 +36,17 @@ import {MatIcon} from '@angular/material/icon';
 })
 export class LoginComponent {
   hide = signal(true);
+  errorMessage = '';
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   })
+
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient,
+    protected router: Router,
+  ) {}
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
@@ -46,7 +54,18 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log("called");
-    console.log(this.loginForm.value);
+    this.authService.setCredentials(this.loginForm.value.username, this.loginForm.value.password);
+
+    this.http.get('http://localhost:8080/api/user').subscribe({
+      next: (response) => {
+        console.log('Login successfull', response);
+        this.router.navigate(['/habits']);
+      },
+      error: (error) => {
+        console.error('Login failed', error);
+        this.errorMessage = 'Invalid username or password';
+        this.authService.clearCredentials(); // Clear credentials on failure
+      }
+    });
   }
 }
