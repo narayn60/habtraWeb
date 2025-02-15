@@ -15,3 +15,11 @@
   top: 0;
   z-index: 1;
 }
+
+.mat-sidenav-content {
+  background: rgb(225, 241, 250);
+}
+
+.flexExpand {
+  flex: 1 1 auto;
+}

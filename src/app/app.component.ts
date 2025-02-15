@@ -3,10 +3,11 @@ import {Router, RouterOutlet} from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './core/auth/auth.service';
+import {NavigationComponent} from './core/navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavigationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

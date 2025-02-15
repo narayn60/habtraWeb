@@ -1,0 +1,8 @@
+.actions-row {
+  padding: 1em;
+  display: flex;
+}
+
+.buttons {
+  margin-left: auto;
+}
