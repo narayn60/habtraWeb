@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Create New Habit</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="onSubmit()" class="content">
+    @if (!customHabit) {
+      <mat-form-field>
+        <mat-label>Habits</mat-label>
+        <mat-select [formControl]="habitControl">
+          @for (habit of habits; track habit.name) {
+            <mat-option [value]="habit.name">{{habit.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else {
+      <mat-form-field>
+        <mat-label>Custom Habit</mat-label>
+        <input matInput>
+      </mat-form-field>
+    }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button type="submit">Create</button>
+  <button mat-raised-button (click)="customHabit = !customHabit">Create Custom Habit</button>
+</mat-dialog-actions>

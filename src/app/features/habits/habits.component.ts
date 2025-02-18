@@ -3,6 +3,7 @@ import {HabitsService} from './habits.service';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
+import {HabitCreationDialogComponent} from './components/habit-creation-dialog/habit-creation-dialog.component';
 
 @Component({
   selector: 'app-habits',
@@ -25,6 +26,8 @@ export class HabitsComponent {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open()
+    const dialogRef = this.dialog.open(HabitCreationDialogComponent, {
+      data: {}
+    });
   }
 }
