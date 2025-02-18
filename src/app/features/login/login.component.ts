@@ -56,6 +56,7 @@ export class LoginComponent {
   onSubmit() {
     this.authService.setCredentials(this.loginForm.value.username, this.loginForm.value.password);
 
+    // TODO: Move this out to a service
     this.http.get('http://localhost:8080/api/user').subscribe({
       next: (response) => {
         console.log('Login successfull', response);
