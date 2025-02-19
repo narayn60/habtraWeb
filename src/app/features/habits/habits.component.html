@@ -4,7 +4,12 @@
   </div>
 </section>
 <mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile [colspan]="2">
+  <mat-grid-tile [colspan]="1">
+    <div class="temp">
+      <app-habits-table class="habits-table"></app-habits-table>
+    </div>
   </mat-grid-tile>
-  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile [colspan]="1">2</mat-grid-tile>
+  <mat-grid-tile [colspan]="1">3</mat-grid-tile>
+  <mat-grid-tile [colspan]="1">4</mat-grid-tile>
 </mat-grid-list>

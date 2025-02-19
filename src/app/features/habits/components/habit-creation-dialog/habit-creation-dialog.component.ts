@@ -53,14 +53,7 @@ export class HabitCreationDialogComponent {
 
   onSubmit() {
     if (this.habitForm.value.habit) {
-      this.habitsService.createHabit({habit: this.habitForm.value.habit}).subscribe(
-        res => {
-          console.log("HTTP Resp: ", res);
-          this.dialogRef.close();
-        },
-        err => console.log("Error creating Habit", err),
-        () => console.log("HTTP request completed")
-      )
+      this.habitsService.createHabit({habit: this.habitForm.value.habit}, () => this.dialogRef.close());
     }
   }
 
