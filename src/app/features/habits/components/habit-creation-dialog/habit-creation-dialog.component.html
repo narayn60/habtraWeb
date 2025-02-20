@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>Create New Habit</h2>
+<div class="header">
+  <h2 mat-dialog-title>Create New Habit</h2>
+</div>
 <form [formGroup]="habitForm" (ngSubmit)="onSubmit()" class="form-container">
   <mat-dialog-content class="content">
     @if (!customHabit) {

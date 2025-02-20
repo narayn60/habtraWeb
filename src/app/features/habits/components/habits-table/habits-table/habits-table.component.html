@@ -9,6 +9,16 @@
         <td mat-cell *matCellDef="let element"> {{element.name | titlecase}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            <button mat-raised-button (click)="openTrackDialog()">Track</button>
+            <button mat-raised-button >Overview</button>
+          </div>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

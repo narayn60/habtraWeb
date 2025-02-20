@@ -1,0 +1,13 @@
+<div class="header">
+  <h2 mat-dialog-title>Track Habit</h2>
+</div>
+<form [formGroup]="trackForm" (ngSubmit)="onSubmit()" class="form-container">
+  <mat-dialog-content class="content">
+    <mat-form-field>
+      <mat-label>Habits</mat-label>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button type="submit" [disabled]="!trackForm.valid">Create</button>
+  </mat-dialog-actions>
+</form>

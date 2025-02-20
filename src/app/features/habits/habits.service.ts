@@ -21,8 +21,7 @@ export class HabitsService {
   populate() {
     return this.http.get<HabitResponse[]>('http://localhost:8080/api/habits').subscribe({
       next: (resp) => this.habits$.next(resp),
-      error: (err) => console.error(err),
-      complete: () => console.info('complete')
+      error: (err) => console.error(err)
     });
   }
 
@@ -32,8 +31,7 @@ export class HabitsService {
         this.populate();
         callback();
       },
-      error: (err) => console.log("Error creating Habit", err),
-      complete: () => console.log("HTTP request completed")
+      error: (err) => console.log("Error creating Habit", err)
     })
   }
 }

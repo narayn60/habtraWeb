@@ -20,5 +20,9 @@ export const routes: Routes = [
   {
     path: 'register',
     component: SignupComponent,
+  },
+  {
+    path: 'calendar',
+    component: HabitsComponent
   }
 ];

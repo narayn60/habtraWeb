@@ -1,9 +1,10 @@
 <section class="actions-row">
   <div class="buttons">
-    <button mat-flat-button (click)="openDialog()">Create Habbit</button>
+    <button mat-flat-button (click)="openDialog()">Create Habit</button>
   </div>
 </section>
-<mat-grid-list cols="2" rowHeight="2:1">
+<!--<mat-grid-list cols="2" rowHeight="2:1">-->
+<mat-grid-list [cols]="columns">
   <mat-grid-tile [colspan]="1">
     <div class="temp">
       <app-habits-table class="habits-table"></app-habits-table>

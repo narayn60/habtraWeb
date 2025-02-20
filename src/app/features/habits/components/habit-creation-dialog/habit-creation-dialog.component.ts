@@ -46,7 +46,7 @@ export class HabitCreationDialogComponent {
   customHabit = false;
   habitForm = new FormGroup({
     habit: new FormControl<string>('', Validators.required)
-  })
+  });
 
   constructor(private habitsService: HabitsService) {
   }
