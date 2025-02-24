@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './core/auth/auth.service';
 import {NavigationComponent} from './core/navigation/navigation.component';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent {
     const credentials = this.authService.getCredentials();
 
     if (credentials) {
-      this.http.get('http://localhost:8080/api/user').subscribe({
+      this.http.get(environment.apiUrl + '/api/user').subscribe({
         next: () => {
           this.router.navigate(['/habits']);
         },
@@ -35,7 +36,7 @@ export class AppComponent {
   }
 
   logout() {
-    this.http.post('http://localhost:8080/logout', {}).pipe(
+    this.http.post(environment.apiUrl + '/logout', {}).pipe(
       finalize(() => {
         this.authService.clearCredentials();
         this.router.navigateByUrl('/login');

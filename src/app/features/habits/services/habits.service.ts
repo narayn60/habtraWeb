@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs';
+import {environment} from '../../../../environments/environment';
 
 interface HabitCreationRequest {
   habit: string
@@ -18,17 +19,18 @@ export class HabitsService {
 
   constructor(private http: HttpClient) { }
 
-  populate() {
-    return this.http.get<HabitResponse[]>('http://localhost:8080/api/habits').subscribe({
+  all() {
+    return this.http.get<HabitResponse[]>(environment.apiUrl + '/api/habits').subscribe({
       next: (resp) => this.habits$.next(resp),
       error: (err) => console.error(err)
     });
   }
 
-  createHabit(habitRequest: HabitCreationRequest, callback: () => void) {
-    return this.http.post<HabitCreationRequest>('http://localhost:8080/api/habits', habitRequest).subscribe({
+  create(habitRequest: HabitCreationRequest, callback: () => void) {
+    return this.http.post<HabitCreationRequest>(environment.apiUrl + '/api/habits', habitRequest).subscribe({
       next: (res) => {
-        this.populate();
+        // TODO: Maybe can make this smarter
+        this.all();
         callback();
       },
       error: (err) => console.log("Error creating Habit", err)

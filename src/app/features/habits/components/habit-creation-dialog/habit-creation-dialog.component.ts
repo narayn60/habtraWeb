@@ -12,7 +12,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatInputModule} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {TitleCasePipe} from '@angular/common';
-import {HabitsService} from '../../habits.service';
+import {HabitsService} from '../../services/habits.service';
 
 interface Habit {
   name: string;
@@ -39,6 +39,7 @@ interface Habit {
 export class HabitCreationDialogComponent {
   readonly dialogRef = inject(MatDialogRef<HabitCreationDialogComponent>);
   data = inject(MAT_DIALOG_DATA);
+  // TODO: Create default habits
   habits: Habit[] = [
     {name: 'guitar'},
     {name: 'gym'}
@@ -53,7 +54,7 @@ export class HabitCreationDialogComponent {
 
   onSubmit() {
     if (this.habitForm.value.habit) {
-      this.habitsService.createHabit({habit: this.habitForm.value.habit}, () => this.dialogRef.close());
+      this.habitsService.create({habit: this.habitForm.value.habit}, () => this.dialogRef.close());
     }
   }
 

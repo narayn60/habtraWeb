@@ -6,15 +6,18 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {HabitsService} from '../../habits.service';
+import {HabitsService} from '../../services/habits.service';
 import {MatButton} from '@angular/material/button';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {MatOption} from '@angular/material/core';
+import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
-import {FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TitleCasePipe} from '@angular/common';
 import {MatChip, MatChipSet} from '@angular/material/chips';
+import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
+import {HabitEntriesService} from '../../services/habit-entries.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-habit-track-dialog',
@@ -26,21 +29,31 @@ import {MatChip, MatChipSet} from '@angular/material/chips';
     MatFormField,
     MatLabel,
     ReactiveFormsModule,
+    MatTimepickerInput,
+    MatTimepickerToggle,
+    MatSuffix,
+    MatTimepicker,
+    MatInput,
   ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './habit-track-dialog.component.html',
   styleUrl: './habit-track-dialog.component.css'
 })
 export class HabitTrackDialogComponent {
   readonly dialogRef = inject(MatDialogRef<HabitTrackDialogComponent>);
-  data = inject(MAT_DIALOG_DATA);
+  data: {habitId: string} = inject(MAT_DIALOG_DATA);
   trackForm = new FormGroup({
-
+    startTime: new FormControl<Date>(new Date(), Validators.required),
+    endTime: new FormControl<Date>(new Date(), Validators.required),
   });
 
-  constructor(private habitsService: HabitsService) {}
+  constructor(private habitEntriesService: HabitEntriesService) {}
 
   onSubmit() {
-
+    this.habitEntriesService.create({
+      habitId: this.data.habitId,
+      startTime: this.trackForm.value.startTime,
+      endTime: this.trackForm.value.endTime
+    }, () => this.dialogRef.close());
   }
-
 }

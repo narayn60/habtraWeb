@@ -4,7 +4,16 @@
 <form [formGroup]="trackForm" (ngSubmit)="onSubmit()" class="form-container">
   <mat-dialog-content class="content">
     <mat-form-field>
-      <mat-label>Habits</mat-label>
+      <mat-label>Start time</mat-label>
+      <input matInput formControlName="startTime" [matTimepicker]="startPicker">
+      <mat-timepicker-toggle matIconSuffix [for]="startPicker"/>
+      <mat-timepicker #startPicker />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End time</mat-label>
+      <input matInput formControlName="endTime" [matTimepicker]="endPicker">
+      <mat-timepicker-toggle matIconSuffix [for]="endPicker"/>
+      <mat-timepicker #endPicker/>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>

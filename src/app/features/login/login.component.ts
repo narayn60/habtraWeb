@@ -13,6 +13,7 @@ import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +58,7 @@ export class LoginComponent {
     this.authService.setCredentials(this.loginForm.value.username, this.loginForm.value.password);
 
     // TODO: Move this out to a service
-    this.http.get('http://localhost:8080/api/user').subscribe({
+    this.http.get(environment.apiUrl + '/api/user').subscribe({
       next: (response) => {
         console.log('Login successfull', response);
         this.router.navigate(['/habits']);

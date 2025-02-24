@@ -7,7 +7,7 @@
   margin-left: auto;
 }
 
-.temp {
+.element-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,6 +16,6 @@
   height: 100%;
 }
 
-.habits-table {
+.table {
   width: 80%;
 }
