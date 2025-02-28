@@ -5,10 +5,11 @@ import {HttpClient} from '@angular/common/http';
 import {AuthService} from './core/auth/auth.service';
 import {NavigationComponent} from './core/navigation/navigation.component';
 import {environment} from '../environments/environment';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavigationComponent],
+  imports: [RouterOutlet, NavigationComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -42,5 +43,9 @@ export class AppComponent {
         this.router.navigateByUrl('/login');
       })
     ).subscribe();
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.authService.getCredentials();
   }
 }

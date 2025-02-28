@@ -12,7 +12,14 @@ import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import {TitleCasePipe} from '@angular/common';
 import {MatChip, MatChipSet} from '@angular/material/chips';
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
@@ -42,12 +49,17 @@ import {HttpClient} from '@angular/common/http';
 export class HabitTrackDialogComponent {
   readonly dialogRef = inject(MatDialogRef<HabitTrackDialogComponent>);
   data: {habitId: string} = inject(MAT_DIALOG_DATA);
-  trackForm = new FormGroup({
-    startTime: new FormControl<Date>(new Date(), Validators.required),
-    endTime: new FormControl<Date>(new Date(), Validators.required),
-  });
+  trackForm!: FormGroup;
 
-  constructor(private habitEntriesService: HabitEntriesService) {}
+  constructor(private habitEntriesService: HabitEntriesService) {
+    const startTime = new Date();
+    const endTime = new Date(startTime);
+    endTime.setMinutes(startTime.getMinutes() + 10);
+    this.trackForm = new FormGroup({
+      startTime: new FormControl<Date>(startTime, Validators.required),
+      endTime: new FormControl<Date>(endTime, Validators.required),
+    }, {validators: this.timeRangeValidator});
+  }
 
   onSubmit() {
     this.habitEntriesService.create({
@@ -55,5 +67,15 @@ export class HabitTrackDialogComponent {
       startTime: this.trackForm.value.startTime,
       endTime: this.trackForm.value.endTime
     }, () => this.dialogRef.close());
+  }
+
+  timeRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const startTime: Date = control.get('startTime')?.value;
+    const endTime: Date = control.get('endTime')?.value;
+
+    if (startTime && endTime && startTime.getTime() > endTime.getTime()) {
+      return { TimeRangeError: true };
+    }
+    return null;
   }
 }

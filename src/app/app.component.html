@@ -1,4 +1,8 @@
 <link rel="stylesheet" href="core/navigation/navigation.component.css">
-<app-navigation>
+<!--User logged in-->
+<app-navigation *ngIf="isAuthenticated()">
   <router-outlet></router-outlet>
 </app-navigation>
+
+<!--Logged out-->
+<router-outlet *ngIf="!isAuthenticated()"></router-outlet>
