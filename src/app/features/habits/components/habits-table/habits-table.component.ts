@@ -22,7 +22,7 @@ import {CardComponent} from '../../../../shared/components/card/card.component';
 })
 export class HabitsTableComponent {
   readonly trackDialog = inject(MatDialog);
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'frequency', 'target', 'actions'];
 
   constructor(protected habitsService: HabitsService) {
   }

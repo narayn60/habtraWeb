@@ -18,6 +18,18 @@
         <input formControlName="habit" name="habit" matInput>
       </mat-form-field>
     }
+    <mat-form-field>
+      <mat-label>Frequency</mat-label>
+      <mat-select formControlName="frequency">
+        @for (frequency of frequencies ; track frequency) {
+          <mat-option [value]="frequency">{{frequency | titlecase}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Target</mat-label>
+      <input formControlName="target" name="target" matInput>
+    </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-raised-button type="submit" [disabled]="!habitForm.valid">Create</button>

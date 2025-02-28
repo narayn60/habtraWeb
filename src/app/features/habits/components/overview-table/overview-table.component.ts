@@ -13,6 +13,7 @@ import {
 import {TitleCasePipe} from "@angular/common";
 import {CardComponent} from '../../../../shared/components/card/card.component';
 import {HabitEntriesService} from '../../services/habit-entries.service';
+import {DatePipePipe} from '../../../../shared/pipes/date-pipe.pipe';
 
 @Component({
   selector: 'app-overview-table',
@@ -28,13 +29,14 @@ import {HabitEntriesService} from '../../services/habit-entries.service';
     MatRow,
     MatRowDef,
     MatHeaderCellDef,
-    TitleCasePipe
+    TitleCasePipe,
+    DatePipePipe
   ],
   templateUrl: './overview-table.component.html',
   styleUrl: './overview-table.component.css'
 })
 export class OverviewTableComponent {
-  displayedColumns: string[] = ['name', 'startTime', 'endTime'];
+  displayedColumns: string[] = ['name', 'startTime', 'endTime', 'duration'];
 
   constructor(protected habitEntriesService: HabitEntriesService) {}
 
@@ -42,4 +44,6 @@ export class OverviewTableComponent {
     this.habitEntriesService.all();
     console.log(this.habitEntriesService.allHabitEntries$);
   }
+
+  protected readonly Date = Date;
 }

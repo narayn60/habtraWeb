@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject} from 'rxjs';
 import {environment} from '../../../../environments/environment';
+import {Frequency} from '../types/types';
 
 interface HabitCreationRequest {
   habit: string
+  frequency: Frequency
+  target: number
 }
 
 export interface HabitResponse {
