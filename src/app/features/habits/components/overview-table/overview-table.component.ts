@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import {MatButton} from "@angular/material/button";
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {
   MatCell,
   MatCellDef,
@@ -12,8 +10,8 @@ import {
 } from "@angular/material/table";
 import {TitleCasePipe} from "@angular/common";
 import {CardComponent} from '../../../../shared/components/card/card.component';
-import {HabitEntriesService} from '../../services/habit-entries.service';
 import {DatePipePipe} from '../../../../shared/pipes/date-pipe.pipe';
+import {HabitEntriesService} from '../../../../core/services/habit-entries.service';
 
 @Component({
   selector: 'app-overview-table',
@@ -42,7 +40,6 @@ export class OverviewTableComponent {
 
   ngOnInit() {
     this.habitEntriesService.all();
-    console.log(this.habitEntriesService.allHabitEntries$);
   }
 
   protected readonly Date = Date;

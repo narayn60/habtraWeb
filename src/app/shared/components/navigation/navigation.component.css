@@ -4,6 +4,11 @@
 
 .sidenav {
   width: 200px;
+  background-color: rgb(224, 242, 255);
+}
+
+.header {
+  font-size: xx-large;
 }
 
 .sidenav .mat-toolbar {
@@ -17,7 +22,7 @@
 }
 
 .mat-sidenav-content {
-  background: rgb(225, 241, 250);
+  background: rgb(252, 254, 255);
 }
 
 .flexExpand {

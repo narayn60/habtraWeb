@@ -20,11 +20,9 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import {TitleCasePipe} from '@angular/common';
-import {MatChip, MatChipSet} from '@angular/material/chips';
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
-import {HabitEntriesService} from '../../services/habit-entries.service';
-import {HttpClient} from '@angular/common/http';
+import {HabitEntriesService} from '../../../../core/services/habit-entries.service';
+import {TitleCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-habit-track-dialog',
@@ -41,6 +39,7 @@ import {HttpClient} from '@angular/common/http';
     MatSuffix,
     MatTimepicker,
     MatInput,
+    TitleCasePipe,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './habit-track-dialog.component.html',
@@ -48,24 +47,25 @@ import {HttpClient} from '@angular/common/http';
 })
 export class HabitTrackDialogComponent {
   readonly dialogRef = inject(MatDialogRef<HabitTrackDialogComponent>);
-  data: {habitId: string} = inject(MAT_DIALOG_DATA);
+  data: {habitId: string, name: string} = inject(MAT_DIALOG_DATA);
   trackForm!: FormGroup;
 
   constructor(private habitEntriesService: HabitEntriesService) {
-    const startTime = new Date();
+    const startTime = new Date(Date.now());
     const endTime = new Date(startTime);
     endTime.setMinutes(startTime.getMinutes() + 10);
+    // TODO: Figure out how to make this nicer
     this.trackForm = new FormGroup({
       startTime: new FormControl<Date>(startTime, Validators.required),
       endTime: new FormControl<Date>(endTime, Validators.required),
+      note: new FormControl<string>(''),
     }, {validators: this.timeRangeValidator});
   }
 
   onSubmit() {
     this.habitEntriesService.create({
+      ...this.trackForm.value,
       habitId: this.data.habitId,
-      startTime: this.trackForm.value.startTime,
-      endTime: this.trackForm.value.endTime
     }, () => this.dialogRef.close());
   }
 

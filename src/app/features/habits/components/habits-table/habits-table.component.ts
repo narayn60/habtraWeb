@@ -31,10 +31,11 @@ export class HabitsTableComponent {
     this.habitsService.all();
   }
 
-  openTrackDialog(habitId: string) {
+  openTrackDialog(habitId: string, name: string) {
     const dialogRef = this.trackDialog.open(HabitTrackDialogComponent, {
       data: {
-        habitId
+        habitId,
+        name
       }
     });
   }

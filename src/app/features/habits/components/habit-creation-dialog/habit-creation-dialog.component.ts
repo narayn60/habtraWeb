@@ -67,7 +67,7 @@ export class HabitCreationDialogComponent {
   }
 
   toggleCustom() {
-    this.habitForm.reset({habit: ''});
+    this.habitForm.reset({...this.habitForm.value, habit: ''});
     this.customHabit = !this.customHabit;
   }
 }

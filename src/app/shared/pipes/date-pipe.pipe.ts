@@ -8,8 +8,7 @@ export class DatePipePipe implements PipeTransform {
   transform(value: Date, ...args: unknown[]): string {
     return new Intl.DateTimeFormat("en-GB", {
       dateStyle: "medium",
-      timeStyle: "short",
-      timeZone: "Australia/Sydney",
+      timeStyle: "short"
     }).format(value);
   }
 

@@ -4,7 +4,7 @@
 html {
   @include mat.theme((
     color: mat.$azure-palette,
-    typography: Roboto,
+    typography: Kanit,
   ));
 }
 
@@ -15,5 +15,6 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Kanit-light, "Helvetica Neue", sans-serif;
+  //font-weight: 300;
 }

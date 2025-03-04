@@ -3,7 +3,7 @@ import {Router, RouterOutlet} from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './core/auth/auth.service';
-import {NavigationComponent} from './core/navigation/navigation.component';
+import {NavigationComponent} from './shared/components/navigation/navigation.component';
 import {environment} from '../environments/environment';
 import {NgIf} from '@angular/common';
 

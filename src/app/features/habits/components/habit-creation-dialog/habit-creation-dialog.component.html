@@ -11,11 +11,17 @@
             <mat-option [value]="habit.name">{{habit.name | titlecase}}</mat-option>
           }
         </mat-select>
+        <mat-hint align="end">
+          <a (click)="toggleCustom()"><u>Create custom</u></a>
+        </mat-hint>
       </mat-form-field>
     } @else {
       <mat-form-field>
         <mat-label>Custom Habit</mat-label>
         <input formControlName="habit" name="habit" matInput>
+        <mat-hint align="end">
+          <a (click)="toggleCustom()"><u>Choose popular Habit</u></a>
+        </mat-hint>
       </mat-form-field>
     }
     <mat-form-field>
@@ -33,12 +39,5 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-raised-button type="submit" [disabled]="!habitForm.valid">Create</button>
-    <button mat-raised-button type="button" (click)="toggleCustom()">
-      @if (this.customHabit) {
-        Chose Popular Habit
-      } @else {
-        Create Custom Habit
-      }
-    </button>
   </mat-dialog-actions>
 </form>
