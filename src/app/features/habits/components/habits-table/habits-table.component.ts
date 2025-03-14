@@ -32,7 +32,7 @@ export class HabitsTableComponent {
   }
 
   openTrackDialog(habitId: string, name: string) {
-    const dialogRef = this.trackDialog.open(HabitTrackDialogComponent, {
+    this.trackDialog.open(HabitTrackDialogComponent, {
       data: {
         habitId,
         name

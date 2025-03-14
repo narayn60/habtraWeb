@@ -3,18 +3,14 @@
     <button mat-flat-button (click)="openDialog()">Create Habit</button>
   </div>
 </section>
-<!--<mat-grid-list cols="2" rowHeight="2:1">-->
 <mat-grid-list [cols]="columns">
-  <mat-grid-tile [colspan]="1">
-    <div class="element-container">
-      <app-habits-table class="table"></app-habits-table>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="1">
-    <div class="element-container">
-      <app-overview-table class="table"></app-overview-table>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile [colspan]="1">3</mat-grid-tile>
-  <mat-grid-tile [colspan]="1">4</mat-grid-tile>
+  @for (habit of habitsService.habits$.getValue(); track habit.name) {
+    <mat-grid-tile [colspan]="1">
+      <div class="element-container">
+        <app-habit-card [habitId]="habit.id" [title]="habit.name" [frequency]="habit.frequency">
+          <app-overview-table [entries]="habit.entries"></app-overview-table>
+        </app-habit-card>
+      </div>
+    </mat-grid-tile>
+  }
 </mat-grid-list>

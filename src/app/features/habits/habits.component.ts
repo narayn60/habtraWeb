@@ -4,8 +4,8 @@ import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {HabitCreationDialogComponent} from './components/habit-creation-dialog/habit-creation-dialog.component';
-import {HabitsTableComponent} from './components/habits-table/habits-table.component';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {HabitCardComponent} from './components/habit-card/habit-card.component';
 import {OverviewTableComponent} from './components/overview-table/overview-table.component';
 
 @Component({
@@ -14,7 +14,7 @@ import {OverviewTableComponent} from './components/overview-table/overview-table
     MatGridList,
     MatGridTile,
     MatButton,
-    HabitsTableComponent,
+    HabitCardComponent,
     OverviewTableComponent
   ],
   templateUrl: './habits.component.html',
@@ -27,10 +27,11 @@ export class HabitsComponent implements OnInit {
   columns!: number;
   private breakpointObserver = inject(BreakpointObserver);
 
-  constructor(private habitsService: HabitsService) {}
+  constructor(protected habitsService: HabitsService) {}
 
   ngOnInit() {
     this.getBreakPoints();
+    this.habitsService.all();
   }
 
   private getBreakPoints() {
@@ -43,7 +44,7 @@ export class HabitsComponent implements OnInit {
     this.columns = (this.breakpointObserver.isMatched(Breakpoints.Medium) ||
       this.breakpointObserver.isMatched(Breakpoints.Small) ||
       this.breakpointObserver.isMatched(Breakpoints.XSmall)
-    ) ? 1 : 2;
+    ) ? 2 : 3;
   }
 
   openDialog() {

@@ -16,6 +16,10 @@
   height: 100%;
 }
 
+.element-container > app-habit-card {
+  width: 80%;
+}
+
 .table {
   width: 80%;
 }
