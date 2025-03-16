@@ -4,7 +4,7 @@
   </div>
 </section>
 <mat-grid-list [cols]="columns">
-  @for (habit of habitsService.habits$.getValue(); track habit.name) {
+  @for (habit of habitsService.habits$ | async; track habit.name) {
     <mat-grid-tile [colspan]="1">
       <div class="element-container">
         <app-habit-card [habitId]="habit.id" [title]="habit.name" [frequency]="habit.frequency">

@@ -1,65 +1,88 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject} from 'rxjs';
-import {environment} from '../../../../environments/environment';
-import {Frequency} from '../types/types';
+import {BehaviorSubject, map} from 'rxjs';
+import {Habit, HabitApi, HabitCreationRequest, HabitResponse} from '../../../core/apis/habit.api';
+import {HabitEntriesApi, HabitEntriesCreationRequest} from '../../../core/apis/habit-entries.api';
 
-interface HabitEntry {
-  startTime: Date;
-  endTime: Date;
-  note: string;
-  id: string;
-}
-
-interface HabitCreationRequest {
-  habit: string;
-  frequency: Frequency;
-  target: number;
-}
-
-export interface HabitResponse {
-  id: string;
-  name: string;
-  frequency: Frequency;
-  target: number;
-  entries: HabitEntry[];
-}
+interface HabitState { [key: string]: Habit; }
 
 @Injectable({
   providedIn: 'root'
 })
 export class HabitsService {
-  readonly habits$ = new BehaviorSubject<HabitResponse[]>([]);
+  private readonly _habitsState$ = new BehaviorSubject<HabitState>({});
+  readonly habits$ = this._habitsState$.pipe(
+      map((habit: HabitState) => Object.values(habit))
+  )
 
-  constructor(private http: HttpClient) { }
+  constructor(private api: HabitApi, private entriesApi: HabitEntriesApi) {}
 
   all() {
-    return this.http.get<HabitResponse[]>(environment.apiUrl + '/api/habits').subscribe({
+    return this.api.all().subscribe({
       next: resp => {
-        resp = resp.map(habit => ({
-          ...habit,
-          entries: habit.entries.map(entry=>  ({
-            ...entry,
-            startTime: new Date(entry.startTime),
-            endTime: new Date(entry.endTime)
-          }))
-        }));
-        return this.habits$.next(resp)
+        const habits = resp.map(habit => this.transformHabitResponse(habit))
+        const updatedState = this.createState(habits);
+
+        return this._habitsState$.next(updatedState);
       },
       error: (err) => console.error(err)
     });
   }
 
-  create(habitRequest: HabitCreationRequest, callback: () => void) {
-    return this.http.post<HabitCreationRequest>(environment.apiUrl + '/api/habits', habitRequest).subscribe({
-      next: (res) => {
-        // TODO: Maybe can make this smarter
-        this.all();
-        callback();
+  create(habitRequest: HabitCreationRequest, complete: () => void) {
+    return this.api.create(habitRequest).subscribe({
+      next: (resp: HabitResponse) => {
+        const habit = this.transformHabitResponse(resp);
+        this.updateState(habit);
       },
-      error: (err) => console.log("Error creating Habit", err)
+      error: (err) => console.log("Error creating Habit", err),
+      complete: complete
     })
   }
 
-  // transformEntries(entries:)
+  get(habitId: string) {
+    return this.api.get(habitId).subscribe({
+      next: resp => {
+        const habit = this.transformHabitResponse(resp);
+        return this.updateState(habit);
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  addHabitEntry(habitEntriesRequest: HabitEntriesCreationRequest, callback: () => void) {
+    return this.entriesApi.create(habitEntriesRequest).subscribe({
+      next: resp => {
+        this.get(habitEntriesRequest.habitId);
+        callback();
+      },
+      error: err => console.error(err)
+    })
+  }
+
+  private transformHabitResponse(habit: HabitResponse): Habit {
+    return ({
+      ...habit,
+      entries: habit.entries.map(entry => ({
+        ...entry,
+        startTime: new Date(entry.startTime),
+        endTime: new Date(entry.endTime)
+      }))
+    })
+  }
+
+  private createState(habits: Habit[]): HabitState {
+    return habits.reduce(
+      (acc, entry) => ({...acc, [entry.name]: entry}),
+      {}
+    )
+  }
+
+  private updateState(habit: Habit) {
+    const updatedState = {
+      ...this._habitsState$.getValue(),
+      [habit.name]: habit
+    }
+
+    return this._habitsState$.next(updatedState);
+  }
 }

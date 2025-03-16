@@ -53,8 +53,7 @@ export class HabitCreationDialogComponent {
     target: new FormControl<number>(0, Validators.required),
   });
 
-  constructor(private habitsService: HabitsService) {
-  }
+  constructor(private habitsService: HabitsService) {}
 
   onSubmit() {
     if (this.habitForm.value.habit && this.habitForm.value.frequency && this.habitForm.value.target) {

@@ -7,6 +7,7 @@ import {HabitCreationDialogComponent} from './components/habit-creation-dialog/h
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {HabitCardComponent} from './components/habit-card/habit-card.component';
 import {OverviewTableComponent} from './components/overview-table/overview-table.component';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-habits',
@@ -15,7 +16,8 @@ import {OverviewTableComponent} from './components/overview-table/overview-table
     MatGridTile,
     MatButton,
     HabitCardComponent,
-    OverviewTableComponent
+    OverviewTableComponent,
+    AsyncPipe
   ],
   templateUrl: './habits.component.html',
   styleUrl: './habits.component.css'
@@ -44,13 +46,14 @@ export class HabitsComponent implements OnInit {
     this.columns = (this.breakpointObserver.isMatched(Breakpoints.Medium) ||
       this.breakpointObserver.isMatched(Breakpoints.Small) ||
       this.breakpointObserver.isMatched(Breakpoints.XSmall)
-    ) ? 2 : 3;
+    ) ? 1 : 3;
   }
 
   openDialog() {
-    // TODO: Determine if we need this dialogRef
-    const dialogRef = this.dialog.open(HabitCreationDialogComponent, {
+    this.dialog.open(HabitCreationDialogComponent, {
       data: {}
     });
   }
+
+  protected readonly Object = Object;
 }

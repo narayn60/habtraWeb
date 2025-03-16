@@ -34,4 +34,14 @@ export class OverviewTableComponent {
     endTime: Date;
   }[] = [];
   displayedColumns: string[] = ['startTime', 'endTime', 'duration'];
+  formatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+    timeZone: 'UTC',
+  })
+
+  getDuration(startTime: Date, endTime: Date) {
+    return this.formatter.format(endTime.getTime() - startTime.getTime());
+  }
 }

@@ -10,8 +10,7 @@ import {HabitsService} from '../../services/habits.service';
 import {MatButton} from '@angular/material/button';
 import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-import {MatOption, provideNativeDateAdapter} from '@angular/material/core';
-import {MatSelect} from '@angular/material/select';
+import {provideNativeDateAdapter} from '@angular/material/core';
 import {
   AbstractControl,
   FormControl,
@@ -21,7 +20,6 @@ import {
   Validators
 } from '@angular/forms';
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker';
-import {HabitEntriesService} from '../../../../core/services/habit-entries.service';
 import {TitleCasePipe} from '@angular/common';
 
 @Component({
@@ -50,7 +48,7 @@ export class HabitTrackDialogComponent {
   data: {habitId: string, name: string} = inject(MAT_DIALOG_DATA);
   trackForm!: FormGroup;
 
-  constructor(private habitEntriesService: HabitEntriesService) {
+  constructor(private habitService: HabitsService) {
     const startTime = new Date(Date.now());
     const endTime = new Date(startTime);
     endTime.setMinutes(startTime.getMinutes() + 10);
@@ -63,7 +61,7 @@ export class HabitTrackDialogComponent {
   }
 
   onSubmit() {
-    this.habitEntriesService.create({
+    this.habitService.addHabitEntry({
       ...this.trackForm.value,
       habitId: this.data.habitId,
     }, () => this.dialogRef.close());
