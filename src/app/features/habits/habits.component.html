@@ -7,7 +7,7 @@
   @for (habit of habitsService.habits$ | async; track habit.name) {
     <mat-grid-tile [colspan]="1">
       <div class="element-container">
-        <app-habit-card [habitId]="habit.id" [title]="habit.name" [frequency]="habit.frequency">
+        <app-habit-card [habit]="habit">
           <app-overview-table [entries]="habit.entries"></app-overview-table>
         </app-habit-card>
       </div>

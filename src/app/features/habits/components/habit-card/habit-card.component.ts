@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, computed, inject, input, Input, InputSignal} from '@angular/core';
 import {
   MatCard,
   MatCardActions,
@@ -11,6 +11,8 @@ import {TitleCasePipe} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {HabitTrackDialogComponent} from '../habit-track-dialog/habit-track-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {MatProgressBar} from '@angular/material/progress-bar';
+import {Habit} from '../../../../core/models/habit.model';
 
 @Component({
   selector: 'app-habit-card',
@@ -23,23 +25,23 @@ import {MatDialog} from '@angular/material/dialog';
     MatCardSubtitle,
     TitleCasePipe,
     MatCardActions,
-    MatButton
+    MatButton,
   ],
   templateUrl: './habit-card.component.html',
   styleUrl: './habit-card.component.css'
 })
 export class HabitCardComponent {
-  @Input() title: string = '';
-  @Input() frequency: string = '';
-  @Input() habitId: string = '';
+  habit = input.required<Habit>();
   readonly trackDialog = inject(MatDialog);
 
   openTrackDialog() {
     this.trackDialog.open(HabitTrackDialogComponent, {
       data: {
-        habitId: this.habitId,
-        name: this.title
+        habitId: this.habit().id,
+        name: this.habit().name,
       }
     });
   }
+
+  protected readonly Number = Number;
 }
