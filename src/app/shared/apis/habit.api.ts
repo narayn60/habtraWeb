@@ -1,28 +1,7 @@
-import {Frequency} from '../../features/habits/types/types';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Injectable} from '@angular/core';
-
-export interface HabitResponse {
-  id: string;
-  name: string;
-  frequency: Frequency;
-  target: number;
-  entries: HabitEntryResponse[];
-}
-
-export interface HabitEntryResponse {
-  id: string,
-  note: string
-  startTime: string;
-  endTime: string;
-}
-
-export interface HabitCreationRequest {
-  habit: string;
-  frequency: Frequency;
-  target: number;
-}
+import {HabitResponse, HabitCreationRequest} from '../interfaces/habit.interfaces';
 
 @Injectable({
   providedIn: 'root'

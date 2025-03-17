@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, map} from 'rxjs';
-import {HabitApi, HabitCreationRequest, HabitResponse} from '../../../core/apis/habit.api';
-import {HabitEntriesApi, HabitEntriesCreationRequest} from '../../../core/apis/habit-entries.api';
-import {Habit} from '../../../core/models/habit.model';
-import {HabitEntry} from '../../../core/models/habit-entry.model';
+import {HabitApi} from '../../../shared/apis/habit.api';
+import { HabitEntryCreationRequest } from '../../../shared/interfaces/habit-entries.interfaces';
+import { HabitResponse, HabitCreationRequest } from '../../../shared/interfaces/habit.interfaces';
+import {HabitEntriesApi} from '../../../shared/apis/habit-entries.api';
+import {Habit} from '../../../shared/models/habit.model';
 
 interface HabitState { [key: string]: Habit; }
 
@@ -51,7 +52,7 @@ export class HabitsService {
     });
   }
 
-  addHabitEntry(habitEntriesRequest: HabitEntriesCreationRequest, complete: () => void) {
+  addHabitEntry(habitEntriesRequest: HabitEntryCreationRequest, complete: () => void) {
     return this.entriesApi.create(habitEntriesRequest).subscribe({
       next: resp => {
         this.get(habitEntriesRequest.habitId);

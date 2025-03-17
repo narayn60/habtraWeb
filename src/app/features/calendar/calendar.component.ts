@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {CalendarOptions, EventInput} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {FullCalendarModule} from '@fullcalendar/angular';
-import {HabitEntriesService} from '../../core/services/habit-entries.service';
+import {HabitEntriesService} from '../../shared/services/habit-entries.service';
 import {async} from 'rxjs';
 
 @Component({

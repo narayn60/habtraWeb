@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, Input, InputSignal} from '@angular/core';
+import {Component, computed, inject, input, Input, InputSignal, signal} from '@angular/core';
 import {
   MatCard,
   MatCardActions,
@@ -12,7 +12,7 @@ import {MatButton} from '@angular/material/button';
 import {HabitTrackDialogComponent} from '../habit-track-dialog/habit-track-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatProgressBar} from '@angular/material/progress-bar';
-import {Habit} from '../../../../core/models/habit.model';
+import {Habit} from '../../../../shared/models/habit.model';
 
 @Component({
   selector: 'app-habit-card',
@@ -26,6 +26,7 @@ import {Habit} from '../../../../core/models/habit.model';
     TitleCasePipe,
     MatCardActions,
     MatButton,
+    MatProgressBar,
   ],
   templateUrl: './habit-card.component.html',
   styleUrl: './habit-card.component.css'
@@ -33,6 +34,7 @@ import {Habit} from '../../../../core/models/habit.model';
 export class HabitCardComponent {
   habit = input.required<Habit>();
   readonly trackDialog = inject(MatDialog);
+  value = computed(() => this.habit().getProgress());
 
   openTrackDialog() {
     this.trackDialog.open(HabitTrackDialogComponent, {

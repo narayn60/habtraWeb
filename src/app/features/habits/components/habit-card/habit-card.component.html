@@ -9,7 +9,7 @@
   </mat-card-header>
   <mat-card-content>
     <ng-content></ng-content>
-<!--    <mat-progress-bar mode="determinate" value="habit().percentage"></mat-progress-bar>-->
+    <mat-progress-bar mode="determinate" [value]="value()"></mat-progress-bar>
   </mat-card-content>
   <mat-card-actions class="actions">
     <button mat-raised-button (click)="openTrackDialog()">Track</button>
