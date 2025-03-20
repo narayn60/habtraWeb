@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, computed, inject} from '@angular/core';
 import {CalendarOptions, EventInput} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {FullCalendarModule} from '@fullcalendar/angular';
 import {HabitEntriesService} from '../../shared/services/habit-entries.service';
 import {async} from 'rxjs';
+import {HabitsService} from '../habits/services/habits.service';
 
 @Component({
   selector: 'app-calendar',
@@ -14,23 +15,21 @@ import {async} from 'rxjs';
   styleUrl: './calendar.component.css'
 })
 export class CalendarComponent {
-  calendarOptions: CalendarOptions = {
+  private service: HabitEntriesService = inject(HabitEntriesService);
+  protected calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin]
   };
-  events: EventInput[] = [];
-
-  constructor (private service: HabitEntriesService) { }
-
-  ngOnInit() {
-    this.service.all();
-
-    this.service.allHabitEntries$.subscribe(value => {
-      this.events = value.map(value => ({
+  protected events = computed(
+    () =>
+      this.service.allHabitEntries().map(value => ({
         title: value.habit.name,
         start: value.startTime,
         end: value.endTime,
       }))
-    })
+  );
+
+  ngOnInit() {
+    this.service.all();
   }
 }

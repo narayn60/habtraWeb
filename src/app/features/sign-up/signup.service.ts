@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 
@@ -12,8 +12,7 @@ interface UserRegistration {
   providedIn: 'root'
 })
 export class SignupService {
-
-  constructor(private http: HttpClient) { }
+  private http: HttpClient = inject(HttpClient);
 
   register(credentials: Partial<UserRegistration>) {
     return this.http.post<UserRegistration>(environment.apiUrl + '/api/users', credentials).subscribe(user =>

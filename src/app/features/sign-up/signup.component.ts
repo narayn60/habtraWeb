@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatCard, MatCardActions, MatCardFooter, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatError, MatFormField, MatHint, MatLabel, MatSuffix} from '@angular/material/form-field';
@@ -30,14 +30,15 @@ import {SignupService} from './signup.service';
 })
 export class SignupComponent {
   hide = signal(true);
-  signUpForm = new FormGroup({
+
+  protected router: Router = inject(Router)
+  protected signUpForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.max(50)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   })
 
-
-  constructor(private signupService: SignupService, protected router: Router) {}
+  private signupService: SignupService = inject(SignupService);
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());

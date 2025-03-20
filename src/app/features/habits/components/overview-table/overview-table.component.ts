@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, computed, input, Input} from '@angular/core';
 import {
   MatCell,
   MatCellDef,
@@ -29,10 +29,12 @@ import {DatePipePipe} from '../../../../shared/pipes/date-pipe.pipe';
   styleUrl: './overview-table.component.css'
 })
 export class OverviewTableComponent {
-  @Input() entries: {
-    startTime: Date;
-    endTime: Date;
-  }[] = [];
+  // inputs
+  entries = input<{startTime: Date, endTime: Date}[]>([]);
+  sorted_entries = computed(() =>
+    this.entries().toSorted((a, b) => a.startTime.getTime() - b.startTime.getTime())
+  );
+
   displayedColumns: string[] = ['startTime', 'endTime', 'duration'];
   formatter = new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',

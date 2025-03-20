@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
@@ -16,7 +16,9 @@ import {NgIf} from '@angular/common';
 export class AppComponent {
   title = 'habtraWeb';
 
-  constructor(private authService: AuthService, private http: HttpClient, private router: Router) {}
+  private authService: AuthService = inject(AuthService);
+  private http: HttpClient = inject(HttpClient);
+  private router: Router = inject(Router);
 
   ngOnInit() {
     const credentials = this.authService.getCredentials();

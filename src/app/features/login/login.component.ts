@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, signal, WritableSignal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal, WritableSignal} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {MatCard, MatCardActions, MatCardFooter, MatCardHeader, MatCardTitle} from '@angular/material/card';
@@ -36,18 +36,16 @@ import {environment} from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  hide = signal(true);
-  errorMessage = '';
-  loginForm = new FormGroup({
+  protected hide = signal(true);
+  protected errorMessage = '';
+  protected router: Router = inject(Router);
+  protected loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   })
 
-  constructor(
-    private authService: AuthService,
-    private http: HttpClient,
-    protected router: Router,
-  ) {}
+  private authService: AuthService = inject(AuthService);
+  private http: HttpClient = inject(HttpClient);
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
@@ -60,7 +58,6 @@ export class LoginComponent {
     // TODO: Move this out to a service
     this.http.get(environment.apiUrl + '/api/user').subscribe({
       next: (response) => {
-        console.log('Login successfull', response);
         this.router.navigate(['/habits']);
       },
       error: (error) => {

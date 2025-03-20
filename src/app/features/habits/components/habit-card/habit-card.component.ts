@@ -33,8 +33,10 @@ import {Habit} from '../../../../shared/models/habit.model';
 })
 export class HabitCardComponent {
   habit = input.required<Habit>();
-  readonly trackDialog = inject(MatDialog);
-  value = computed(() => this.habit().getProgress());
+
+  protected value = computed(() => this.habit().getProgress());
+
+  private trackDialog = inject(MatDialog);
 
   openTrackDialog() {
     this.trackDialog.open(HabitTrackDialogComponent, {

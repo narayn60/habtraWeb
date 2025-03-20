@@ -38,8 +38,9 @@ interface Habit {
   styleUrl: './habit-creation-dialog.component.css'
 })
 export class HabitCreationDialogComponent {
+  private habitsService: HabitsService = inject(HabitsService);
   readonly dialogRef = inject(MatDialogRef<HabitCreationDialogComponent>);
-  data = inject(MAT_DIALOG_DATA);
+  readonly data = inject(MAT_DIALOG_DATA);
   // TODO: Create default habits
   habits: Habit[] = [
     {name: 'guitar'},
@@ -52,8 +53,6 @@ export class HabitCreationDialogComponent {
     frequency: new FormControl<Frequency>(Frequency.Daily, Validators.required),
     target: new FormControl<number>(0, Validators.required),
   });
-
-  constructor(private habitsService: HabitsService) {}
 
   onSubmit() {
     if (this.habitForm.value.habit && this.habitForm.value.frequency && this.habitForm.value.target) {

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input, Input} from '@angular/core';
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 
 @Component({
@@ -13,5 +13,5 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/mat
   styleUrl: './card.component.css'
 })
 export class CardComponent {
-  @Input() header: string = '';
+  header = input('');
 }

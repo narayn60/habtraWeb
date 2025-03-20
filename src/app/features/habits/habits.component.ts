@@ -16,20 +16,19 @@ import {AsyncPipe} from '@angular/common';
     MatGridTile,
     MatButton,
     HabitCardComponent,
-    OverviewTableComponent,
-    AsyncPipe
+    OverviewTableComponent
   ],
   templateUrl: './habits.component.html',
   styleUrl: './habits.component.css'
 })
 export class HabitsComponent implements OnInit {
   @ViewChild('gridList', { static: true}) gridList!: ElementRef;
-
-  readonly dialog = inject(MatDialog);
   columns!: number;
-  private breakpointObserver = inject(BreakpointObserver);
 
-  constructor(protected habitsService: HabitsService) {}
+  protected habitsService: HabitsService = inject(HabitsService);
+
+  private breakpointObserver = inject(BreakpointObserver);
+  private readonly dialog = inject(MatDialog);
 
   ngOnInit() {
     this.getBreakPoints();

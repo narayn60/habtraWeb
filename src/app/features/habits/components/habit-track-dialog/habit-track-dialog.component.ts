@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -43,12 +43,13 @@ import {TitleCasePipe} from '@angular/common';
   templateUrl: './habit-track-dialog.component.html',
   styleUrl: './habit-track-dialog.component.css'
 })
-export class HabitTrackDialogComponent {
+export class HabitTrackDialogComponent implements OnInit {
+  private habitsService: HabitsService = inject(HabitsService);
   readonly dialogRef = inject(MatDialogRef<HabitTrackDialogComponent>);
-  data: {habitId: string, name: string} = inject(MAT_DIALOG_DATA);
+  protected data: {habitId: string, name: string} = inject(MAT_DIALOG_DATA);
   trackForm!: FormGroup;
 
-  constructor(private habitService: HabitsService) {
+  ngOnInit() {
     const startTime = new Date(Date.now());
     const endTime = new Date(startTime);
     endTime.setMinutes(startTime.getMinutes() + 10);
@@ -61,7 +62,7 @@ export class HabitTrackDialogComponent {
   }
 
   onSubmit() {
-    this.habitService.addHabitEntry({
+    this.habitsService.addHabitEntry({
       ...this.trackForm.value,
       habitId: this.data.habitId,
     }, () => this.dialogRef.close());
